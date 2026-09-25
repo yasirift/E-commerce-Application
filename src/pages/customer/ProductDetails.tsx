@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { useFetch } from "../../hooks/useFetch";
 import { useCart } from "../../hooks/useCart";
 import ErrorMessage from "../../components/ui/ErrorMessage";
@@ -14,6 +14,7 @@ export default function ProductDetails() {
     refetch,
   } = useFetch<Product>(id ? `/products/${id}` : null);
   const { add } = useCart();
+  const navigate = useNavigate();
   const [quantity, setQuantity] = useState(1);
   const [activeImage, setActiveImage] = useState(0);
 
@@ -48,8 +49,7 @@ export default function ProductDetails() {
   function handleBuyNow() {
     if (!product) return;
     add(product, quantity);
-    // TODO (Phase 4): navigate("/checkout") once the checkout route exists.
-    console.warn("Buy Now added to cart; checkout wiring lands in Phase 4");
+    navigate("/checkout");
   }
 
   return (

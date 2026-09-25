@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { useCart } from "../hooks/useCart";
 import CartItem from "./CartItem";
 import CartSummary from "./CartSummary";
@@ -10,11 +11,13 @@ interface CartDrawerProps {
 
 function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
   const { items, isEmpty, clear } = useCart();
+  const navigate = useNavigate();
 
   if (!isOpen) return null;
 
   function handleCheckout() {
-    console.warn("Checkout not yet implemented");
+    onClose();
+    navigate("/checkout");
   }
 
   return (

@@ -7,6 +7,10 @@ import RegisterPage from "../pages/auth/RegisterPage";
 import DashboardPage from "../pages/customer/DashboardPage";
 import ProductListing from "../pages/customer/ProductListing";
 import ProductDetails from "../pages/customer/ProductDetails";
+import Checkout from "../pages/customer/Checkout";
+import Orders from "../pages/customer/Orders";
+import OrderDetails from "../pages/customer/OrderDetails";
+
 
 export default function AppRoutes() {
   return (
@@ -35,6 +39,9 @@ export default function AppRoutes() {
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/products" element={<ProductListing />} />
           <Route path="/products/:id" element={<ProductDetails />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/orders" element={<Orders />} />
+          <Route path="/orders/:id" element={<OrderDetails />} />
         </Route>
       </Route>
 
