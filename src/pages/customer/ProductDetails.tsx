@@ -1,14 +1,19 @@
 import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useFetch } from "../../hooks/useFetch";
+import { useCart } from "../../hooks/useCart";
 import ErrorMessage from "../../components/ui/ErrorMessage";
 import type { Product } from "../../types";
 
 export default function ProductDetails() {
   const { id } = useParams<{ id: string }>();
-  const { data: product, loading, error, refetch } = useFetch<Product>(
-    id ? `/products/${id}` : null,
-  );
+  const {
+    data: product,
+    loading,
+    error,
+    refetch,
+  } = useFetch<Product>(id ? `/products/${id}` : null);
+  const { add } = useCart();
   const [quantity, setQuantity] = useState(1);
   const [activeImage, setActiveImage] = useState(0);
 
@@ -23,7 +28,10 @@ export default function ProductDetails() {
   if (error || !product) {
     return (
       <div className="mx-auto max-w-4xl px-4 py-10">
-        <ErrorMessage message={error || "Product not found."} onRetry={refetch} />
+        <ErrorMessage
+          message={error || "Product not found."}
+          onRetry={refetch}
+        />
       </div>
     );
   }
@@ -33,11 +41,15 @@ export default function ProductDetails() {
     product.price * (1 - product.discountPercentage / 100);
 
   function handleAddToCart() {
-    console.warn("Add to cart wiring lands in Phase 3");
+    if (!product) return;
+    add(product, quantity);
   }
 
   function handleBuyNow() {
-    console.warn("Buy now wiring lands in Phase 3/4");
+    if (!product) return;
+    add(product, quantity);
+    // TODO (Phase 4): navigate("/checkout") once the checkout route exists.
+    console.warn("Buy Now added to cart; checkout wiring lands in Phase 4");
   }
 
   return (
@@ -63,7 +75,11 @@ export default function ProductDetails() {
                     i === activeImage ? "border-blue-600" : "border-gray-200"
                   }`}
                 >
-                  <img src={img} alt="" className="h-full w-full object-contain" />
+                  <img
+                    src={img}
+                    alt=""
+                    className="h-full w-full object-contain"
+                  />
                 </button>
               ))}
             </div>
@@ -78,7 +94,9 @@ export default function ProductDetails() {
           <h1 className="mt-1 text-2xl font-semibold text-gray-900">
             {product.title}
           </h1>
-          <p className="mt-1 text-sm text-gray-500">⭐ {product.rating.toFixed(1)}</p>
+          <p className="mt-1 text-sm text-gray-500">
+            ⭐ {product.rating.toFixed(1)}
+          </p>
 
           <div className="mt-3 flex items-baseline gap-2">
             <span className="text-2xl font-bold text-blue-600">
@@ -116,7 +134,9 @@ export default function ProductDetails() {
               </button>
               <span className="w-8 text-center text-sm">{quantity}</span>
               <button
-                onClick={() => setQuantity((q) => Math.min(product.stock, q + 1))}
+                onClick={() =>
+                  setQuantity((q) => Math.min(product.stock, q + 1))
+                }
                 className="px-3 py-1 text-lg text-gray-600 hover:bg-gray-100"
                 aria-label="Increase quantity"
                 disabled={quantity >= product.stock}

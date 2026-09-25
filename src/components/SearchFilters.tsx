@@ -1,6 +1,6 @@
 import { useEffect, useState, type ChangeEvent } from "react";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { useDebounce } from "../../hooks/useDebounce";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { useDebounce } from "../hooks/useDebounce";
 import {
   setSearch,
   setCategory,
@@ -10,7 +10,7 @@ import {
   selectSearch,
   selectSort,
   type SortOption,
-} from "../../features/products/productSlice";
+} from "../features/products/productSlice";
 
 interface PriceRange {
   min: string;

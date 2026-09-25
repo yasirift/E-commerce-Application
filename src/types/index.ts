@@ -18,3 +18,13 @@ export interface ProductsResponse {
   skip: number;
   limit: number;
 }
+
+export interface CartItem {
+  id: number;
+  title: string;
+  price: number;
+  discountPercentage: number;
+  thumbnail: string;
+  stock: number;
+  quantity: number;
+}
