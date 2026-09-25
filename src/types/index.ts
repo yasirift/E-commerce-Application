@@ -28,3 +28,37 @@ export interface CartItem {
   stock: number;
   quantity: number;
 }
+
+export interface ShippingInfo {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  address: string;
+  city: string;
+  country: string;
+  postalCode: string;
+}
+
+export type OrderStatus = "Processing" | "Shipped" | "Delivered" | "Cancelled";
+
+export interface OrderItem {
+  id: number;
+  title: string;
+  thumbnail: string;
+  price: number;
+  discountPercentage: number;
+  quantity: number;
+}
+
+export interface Order {
+  id: number;
+  date: string; // ISO string
+  status: OrderStatus;
+  customer: ShippingInfo;
+  items: OrderItem[];
+  subtotal: number;
+  discount: number;
+  shipping: number;
+  total: number;
+}

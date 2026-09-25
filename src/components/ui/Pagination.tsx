@@ -27,7 +27,7 @@ export default function Pagination({
   return (
     <div className="flex flex-col items-center justify-between gap-4 py-4 sm:flex-row">
       <div className="flex items-center gap-2 pl-1 text-sm text-muted">
-        <span>Rows per page</span>
+        <span>Products per page</span>
         <select
           value={pageSize}
           onChange={(e) => onPageSizeChange?.(Number(e.target.value))}
