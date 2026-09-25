@@ -1,6 +1,6 @@
 import ProductCard from "./ProductCard";
 import StatusMessage from "./StatusMessage";
-import type { Product } from "../../types/index";
+import type { Product } from "../types/index";
 
 interface productGridProps {
   products: Product[];

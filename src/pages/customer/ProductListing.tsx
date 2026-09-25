@@ -12,9 +12,9 @@ import {
   selectCategory,
   selectSort,
 } from "../../features/products/productSlice";
-import SearchFilters from "../../components/products/SearchFilters";
-import ProductGrid from "../../components/products/ProductGrid";
-import ProductGridSkeleton from "../../components/products/Skeleton";
+import SearchFilters from "../../components/SearchFilters";
+import ProductGrid from "../../components/ProductGrid";
+import ProductGridSkeleton from "../../components/Skeleton";
 import ErrorMessage from "../../components/ui/ErrorMessage";
 import Pagination from "../../components/ui/Pagination";
 
