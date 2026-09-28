@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { useFetch } from "../../hooks/useFetch";
 import { useCart } from "../../hooks/useCart";
+import { useToast } from "../../components/Toast";
 import ErrorMessage from "../../components/ui/ErrorMessage";
 import type { Product } from "../../types";
 
@@ -14,6 +15,7 @@ export default function ProductDetails() {
     refetch,
   } = useFetch<Product>(id ? `/products/${id}` : null);
   const { add } = useCart();
+  const { showToast } = useToast();
   const navigate = useNavigate();
   const [quantity, setQuantity] = useState(1);
   const [activeImage, setActiveImage] = useState(0);
@@ -44,6 +46,7 @@ export default function ProductDetails() {
   function handleAddToCart() {
     if (!product) return;
     add(product, quantity);
+    showToast(`Added ${product.title} to cart`, "success");
   }
 
   function handleBuyNow() {

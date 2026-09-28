@@ -1,5 +1,7 @@
 import { memo } from "react";
 import { Link } from "react-router-dom";
+import { useCart } from "../hooks/useCart";
+import { useToast } from "./Toast";
 import type { Product } from "../types";
 
 interface ProductCardProps {
@@ -7,10 +9,13 @@ interface ProductCardProps {
 }
 
 function ProductCard({ product }: ProductCardProps) {
+  const { add } = useCart();
+  const { showToast } = useToast();
   const outOfStock = product.stock === 0;
 
   function handleAddToCart() {
-    console.warn("Add to cart in next phase");
+    add(product, 1);
+    showToast(`Added ${product.title} to cart`, "success");
   }
 
   return (
