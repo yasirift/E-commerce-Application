@@ -25,6 +25,9 @@ export default function CustomerLayout() {
             <NavLink to="/products" className={navLinkClass}>
               Products
             </NavLink>
+            <NavLink to="/orders" className={navLinkClass}>
+              Orders
+            </NavLink>
           </nav>
         </div>
 

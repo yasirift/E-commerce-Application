@@ -43,10 +43,14 @@ export default function SearchFilters({
   const debouncedSearch = useDebounce(searchDraft, 400);
 
   useEffect(() => {
+    setSearchDraft(search);
+  }, [search]);
+
+  useEffect(() => {
     if (debouncedSearch !== search) {
       dispatch(setSearch(debouncedSearch));
     }
-  }, [debouncedSearch]);
+  }, [debouncedSearch, dispatch, search]);
 
   function handleSearchChange(e: ChangeEvent<HTMLInputElement>) {
     setSearchDraft(e.target.value);
