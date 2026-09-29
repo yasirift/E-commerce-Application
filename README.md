@@ -1,75 +1,78 @@
-# React + TypeScript + Vite
+# E-Commerce App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A practice e-commerce web app built with React, TypeScript, and Redux Toolkit. It has a customer storefront (browse products, cart, checkout, order history) and an admin panel (manage products, view dashboard stats). Product data comes from the [DummyJSON](https://dummyjson.com) API.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+**Customer**
+- Login / register
+- Browse products with search, category filter, sorting, and pagination
+- Product details page
+- Shopping cart (add, update quantity, remove)
+- Checkout with shipping form
+- Order history and order details
 
-## React Compiler
+**Admin**
+- Dashboard with sales, orders, customers, and product stats
+- Product list with add, edit, and delete
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Tech Stack
 
-## Expanding the ESLint configuration
+- React 19 + TypeScript
+- Vite
+- Redux Toolkit
+- React Router
+- React Hook Form + Zod (form validation)
+- Tailwind CSS
+- Axios
+- Recharts (dashboard charts)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Getting Started
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+1. Clone the repo and install dependencies:
+   ```bash
+   npm install
+   ```
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+2. Create a `.env` file in the project root with:
+   ```
+   VITE_API_URL=https://dummyjson.com
+   ```
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+3. Start the dev server:
+   ```bash
+   npm run dev
+   ```
 
-```
+4. Open the app at `http://localhost:5173`.
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+## Available Scripts
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+| Command | Description |
+|---|---|
+| `npm run dev` | Run the app in development mode |
+| `npm run build` | Build the app for production |
+| `npm run preview` | Preview the production build locally |
+| `npm run lint` | Run ESLint |
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Project Structure
 
 ```
+src/
+├── app/          # Redux store setup
+├── components/   # Reusable UI and shop components
+├── features/     # Redux slices (auth, products, cart, orders)
+├── hooks/        # Custom hooks
+├── layouts/      # Page layouts (auth, customer, admin)
+├── pages/        # Route pages
+├── routes/       # Route definitions and route guards
+├── schemas/      # Zod validation schemas
+├── services/     # API setup (Axios)
+├── types/        # Shared TypeScript types
+└── utils/        # Helper utilities
+```
+
+## Notes
+
+- This project uses the public DummyJSON API for products and auth, so data like orders and cart contents are only stored locally in the browser and are not persisted on a real backend.
+- Built as a practice project to work with React, TypeScript, and Redux Toolkit in a full app structure.
