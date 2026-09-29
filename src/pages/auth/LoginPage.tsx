@@ -8,7 +8,7 @@ import Button from "../../components/ui/Button";
 import Input from "../../components/ui/InputField";
 
 export default function LoginPage() {
-  const { login, loading, error, isAuthenticated } = useAuth();
+  const { login, loading, error, isAuthenticated, isAdmin } = useAuth();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
@@ -23,10 +23,13 @@ export default function LoginPage() {
 
   useEffect(() => {
     if (isAuthenticated) {
-      const redirect = searchParams.get("redirect") || "/dashboard";
+      // An explicit ?redirect= (set by ProtectedRoute) wins; otherwise
+      // admins land on the admin dashboard and customers on theirs.
+      const redirect =
+        searchParams.get("redirect") || (isAdmin ? "/admin" : "/dashboard");
       navigate(redirect, { replace: true });
     }
-  }, [isAuthenticated, navigate, searchParams]);
+  }, [isAuthenticated, isAdmin, navigate, searchParams]);
 
   async function onSubmit(values: LoginFormValues) {
     await login(values);

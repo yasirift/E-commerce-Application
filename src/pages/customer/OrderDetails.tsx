@@ -1,12 +1,12 @@
 import { Link, useParams } from "react-router-dom";
 import { useAppSelector } from "../../app/hooks";
-import { selectOrderById } from "../../features/orders/orderSlice";
+import { selectMyOrderById } from "../../features/orders/orderSlice";
 import type { RootState } from "../../app/store";
 
 export default function OrderDetails() {
   const { id } = useParams<{ id: string }>();
   const order = useAppSelector((state: RootState) =>
-    id ? selectOrderById(state, Number(id)) : undefined,
+    id ? selectMyOrderById(state, Number(id)) : undefined,
   );
 
   if (!order) {
