@@ -4,7 +4,7 @@ import { PackageCheck, Wallet, ShoppingCart, ShoppingBag } from "lucide-react";
 import { useAppSelector } from "../../app/hooks";
 import { useAuth } from "../../hooks/useAuth";
 import { useCart } from "../../hooks/useCart";
-import { selectOrders } from "../../features/orders/orderSlice";
+import { selectMyOrders } from "../../features/orders/orderSlice";
 import StatCard from "../../components/StatCard";
 import Card from "../../components/Card";
 import Badge from "../../components/Badge";
@@ -23,10 +23,8 @@ const STATUS_VARIANT: Record<
 export default function DashboardPage() {
   const { user, isAdmin } = useAuth();
   const { items, itemCount, total, isEmpty } = useCart();
-  const orders = useAppSelector(selectOrders);
+  const orders = useAppSelector(selectMyOrders);
 
-  // Orders are stored newest-first (createOrder unshifts), so the first
-  // three are the most recent.
   const recentOrders = useMemo(() => orders.slice(0, 3), [orders]);
 
   const totalSpent = useMemo(
