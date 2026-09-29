@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useAppSelector } from "../../app/hooks";
-import { selectOrders } from "../../features/orders/orderSlice";
+import { selectMyOrders } from "../../features/orders/orderSlice";
 import StatusMessage from "../../components/StatusMessage";
 
 const STATUS_COLORS: Record<string, string> = {
@@ -11,7 +11,7 @@ const STATUS_COLORS: Record<string, string> = {
 };
 
 export default function Orders() {
-  const orders = useAppSelector(selectOrders);
+  const orders = useAppSelector(selectMyOrders);
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-8">

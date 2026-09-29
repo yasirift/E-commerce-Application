@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate, Navigate } from "react-router-dom";
@@ -24,6 +24,7 @@ export default function Checkout() {
     useCart();
   const status = useAppSelector(selectCreateOrderStatus);
   const error = useAppSelector(selectCreateOrderError);
+  const [orderJustPlaced, setOrderJustPlaced] = useState(false);
 
   const {
     register,
@@ -37,7 +38,7 @@ export default function Checkout() {
     dispatch(clearCreateError());
   }, [dispatch]);
 
-  if (isEmpty) {
+  if (isEmpty && !orderJustPlaced) {
     return <Navigate to="/products" replace />;
   }
 
@@ -53,8 +54,9 @@ export default function Checkout() {
       }),
     );
     if (createOrder.fulfilled.match(result)) {
-      clear();
+      setOrderJustPlaced(true);
       navigate(`/orders/${result.payload.id}`, { replace: true });
+      clear();
     }
   }
 

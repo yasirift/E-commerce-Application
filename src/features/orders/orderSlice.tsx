@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, createSelector } from "@reduxjs/toolkit";
 import api from "../../services/api";
 import type { RootState } from "../../app/store";
 import type { CartItem, Order, ShippingInfo } from "../../types";
@@ -61,6 +61,7 @@ export const createOrder = createAsyncThunk<
   const { nextOrderNumber } = getState().orders;
   const order: Order = {
     id: nextOrderNumber,
+    userId: userId ?? 1,
     date: new Date().toISOString(),
     status: "Processing",
     customer: payload.customer,
@@ -136,6 +137,17 @@ export default ordersSlice.reducer;
 export const selectOrders = (state: RootState) => state.orders.orders;
 export const selectOrderById = (state: RootState, id: number) =>
   state.orders.orders.find((o) => o.id === id);
+
+export const selectMyOrders = createSelector(
+  [(state: RootState) => state.orders.orders, (state: RootState) => state.auth.user?.id],
+  (orders, userId) => (userId === undefined ? [] : orders.filter((o) => o.userId === userId)),
+);
+export const selectMyOrderById = (state: RootState, id: number) => {
+  const userId = state.auth.user?.id;
+  if (userId === undefined) return undefined;
+  return state.orders.orders.find((o) => o.id === id && o.userId === userId);
+};
+
 export const selectCreateOrderStatus = (state: RootState) =>
   state.orders.createStatus;
 export const selectCreateOrderError = (state: RootState) =>

@@ -53,7 +53,8 @@ export interface OrderItem {
 
 export interface Order {
   id: number;
-  date: string; // ISO string
+  userId: number;
+  date: string;
   status: OrderStatus;
   customer: ShippingInfo;
   items: OrderItem[];

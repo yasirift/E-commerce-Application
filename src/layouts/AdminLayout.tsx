@@ -94,7 +94,10 @@ export default function AdminLayout() {
                 {displayName || "Admin"}
               </span>
             }
-            items={[{ label: "Log out", onSelect: handleLogout, danger: true }]}
+            items={[
+              { label: "Back to store", onSelect: () => navigate("/products") },
+              { label: "Log out", onSelect: handleLogout, danger: true },
+            ]}
           />
         </header>
 

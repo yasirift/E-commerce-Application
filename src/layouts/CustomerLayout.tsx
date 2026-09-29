@@ -5,7 +5,7 @@ import CartIcon from "../components/CartIcon";
 import CartDrawer from "../components/CartDrawer";
 
 export default function CustomerLayout() {
-  const { user, logout } = useAuth();
+  const { user, logout, isAdmin } = useAuth();
   const [isCartOpen, setIsCartOpen] = useState(false);
 
   const navLinkClass = ({ isActive }: { isActive: boolean }) =>
@@ -28,6 +28,11 @@ export default function CustomerLayout() {
             <NavLink to="/orders" className={navLinkClass}>
               Orders
             </NavLink>
+            {isAdmin && (
+              <NavLink to="/admin" className={navLinkClass}>
+                Admin Panel
+              </NavLink>
+            )}
           </nav>
         </div>
 

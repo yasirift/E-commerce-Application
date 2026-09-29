@@ -30,6 +30,7 @@ function toAuthUser(u: {
   image?: string;
   role?: string;
 }): AuthUser {
+  const role: Role = u.role === "admin" ? "admin" : "customer";
   return {
     id: u.id,
     username: u.username,
@@ -38,8 +39,20 @@ function toAuthUser(u: {
     lastName: u.lastName,
     gender: u.gender,
     image: u.image,
-    role: (u.role as Role) || "customer",
+    role,
   };
+}
+
+async function fetchProfile(): Promise<AuthUser> {
+  const { data } = await api.get("/auth/me");
+  if (data.role) return toAuthUser(data);
+
+  try {
+    const { data: fullUser } = await api.get(`/users/${data.id}`);
+    return toAuthUser({ ...data, role: fullUser.role });
+  } catch {
+    return toAuthUser(data);
+  }
 }
 
 function getErrorMessage(err: unknown, fallback: string): string {
@@ -67,8 +80,7 @@ export const loginUser = createAsyncThunk<
     tokenStorage.set(token);
 
     try {
-      const { data: fullUser } = await api.get("/auth/me");
-      return toAuthUser(fullUser);
+      return await fetchProfile();
     } catch {
       return toAuthUser(data);
     }
@@ -104,8 +116,7 @@ export const hydrateFromStorage = createAsyncThunk<AuthUser | null, void>(
     const token = tokenStorage.get();
     if (!token) return null;
     try {
-      const { data } = await api.get("/auth/me");
-      return toAuthUser(data);
+      return await fetchProfile();
     } catch {
       tokenStorage.clear();
       return rejectWithValue("Session expired");
