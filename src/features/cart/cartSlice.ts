@@ -1,16 +1,19 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import type { CartItem, Product } from "../../types";
+import { loginUser, hydrateFromStorage, logout } from "../auth/authSlice";
 
-export const CART_STORAGE_KEY = "ecommerce-cart:items";
+export function getCartStorageKey(userId: number) {
+  return `ecommerce-cart:items:${userId}`;
+}
 
 interface CartState {
   items: CartItem[];
 }
 
-function loadCartFromStorage(): CartItem[] {
+function loadCartForUser(userId: number): CartItem[] {
   try {
-    const raw = localStorage.getItem(CART_STORAGE_KEY);
+    const raw = localStorage.getItem(getCartStorageKey(userId));
     return raw ? (JSON.parse(raw) as CartItem[]) : [];
   } catch {
     return [];
@@ -18,7 +21,7 @@ function loadCartFromStorage(): CartItem[] {
 }
 
 const initialState: CartState = {
-  items: loadCartFromStorage(),
+  items: [],
 };
 
 interface AddToCartPayload {
@@ -69,6 +72,19 @@ const cartSLice = createSlice({
     clearCart(state) {
       state.items = [];
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(loginUser.fulfilled, (state, action) => {
+        state.items = loadCartForUser(action.payload.id);
+      })
+      .addCase(hydrateFromStorage.fulfilled, (state, action) => {
+        state.items = action.payload ? loadCartForUser(action.payload.id) : [];
+      })
+
+      .addCase(logout, (state) => {
+        state.items = [];
+      });
   },
 });
 
